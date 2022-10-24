@@ -1846,12 +1846,15 @@ function ProcessTables()
 							if highStakes then
 								--DisplayHelpText("Press ~INPUT_CONTEXT~ to play High-Limit Blackjack.")
 								exports['ps-ui']:DisplayText("[E] - High-Limit Spill Blackjack", "success") 
+
 								--exports['qb-core']:DrawText('[E] - High-Limit Play Blackjack', 'left')
 							else
 								--DisplayHelpText("Press ~INPUT_CONTEXT~ to play Blackjack.")
-								exports['ps-ui']:DisplayText("[E] -  Spill Blackjack", "success") 
+								exports['ps-ui']:DisplayText("[E] -  Spill Blackjack", "success")
+
 								--exports['qb-core']:DrawText('[E] - Play Blackjack', 'left')
 							end
+
 
 							if _DEBUG == true then
 								SetTextFont(0)
