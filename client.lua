@@ -488,7 +488,7 @@ function CreatePeds()
 		dealerHand[i] = {}
 		dealerValue[i] = {}
 		dealerHandObjs[i] = {}
-		local model = `ig_tomcasino`
+		local model = `s_f_y_casino_01`
 
 		chips[i] = {}
 
@@ -557,13 +557,22 @@ end)
 RegisterNetEvent("BLACKJACK:DealerTurnOverCard")
 AddEventHandler("BLACKJACK:DealerTurnOverCard", function(i)
 	SetEntityRotation(dealerHandObjs[i][1], 0.0, 0.0, tables[i].coords.w + cardRotationOffsetsDealer[1].z)
+
 	local chipAmount = getChipAmount()
 	if not chipAmount then chipAmount = 0 end
-	exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+	if highStakes then
+	exports['ps-ui']:StatusUpdate("Blackjack (2500)", {
 		Lang:t("menu.chips")..chipAmount,
 		Lang:t("menu.dealer")..dealerValue[g_seat],
 		Lang:t("menu.you")..handValue(hand),
 	})
+	else
+		exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+			Lang:t("menu.chips")..chipAmount,
+			Lang:t("menu.dealer")..dealerValue[g_seat],
+			Lang:t("menu.you")..handValue(hand),
+		})
+	end
 end)
 
 RegisterNetEvent("BLACKJACK:SplitHand")
@@ -730,10 +739,11 @@ AddEventHandler("BLACKJACK:RequestBets", function(index, _timeLeft)
 		BeginScaleformMovieMethod(scaleform, "DRAW_INSTRUCTIONAL_BUTTONS")
 		EndScaleformMovieMethod()
 
+		if highStakes then
 		local openMenu = {
 			{
 				header = Lang:t("menu.placebet"),
-				txt = Lang:t("menu.placebettxt"),
+				txt = Lang:t("menu.placebettxt2"),
 				params = {
 					event = "qb-blackjack:client:velg",
 					args = "placebet"
@@ -749,6 +759,27 @@ AddEventHandler("BLACKJACK:RequestBets", function(index, _timeLeft)
 			},
 		}
 		exports['qb-menu']:openMenu(openMenu)
+		else
+			local openMenu = {
+				{
+					header = Lang:t("menu.placebet"),
+					txt = Lang:t("menu.placebettxt"),
+					params = {
+						event = "qb-blackjack:client:velg",
+						args = "placebet"
+					}
+				},
+				{
+					header = Lang:t("menu.leavebet"),
+					txt = Lang:t("menu.leavebettxt"),
+					params = {
+						event = "qb-blackjack:client:velg",
+						args = "leavebet"
+					}
+				},
+			}
+			exports['qb-menu']:openMenu(openMenu)
+		end
 
 		while true do Wait(0)
 			local tableLimit = (tables[scrollerIndex].highStakes == true) and #bettingNums or lowTableLimit
@@ -808,11 +839,19 @@ AddEventHandler("BLACKJACK:RequestBets", function(index, _timeLeft)
 
 				TriggerServerEvent("BLACKJACK:CheckPlayerBet", g_seat, bet)
 
-				exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+				if highStakes then
+				exports['ps-ui']:StatusUpdate("Blackjack (2500)", {
 					Lang:t("menu.chips")..chipAmount,
 					Lang:t("menu.dealer").."0",
 					Lang:t("menu.you").."0",
 				  })
+				else
+					exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+						Lang:t("menu.chips")..chipAmount,
+						Lang:t("menu.dealer").."0",
+						Lang:t("menu.you").."0",
+					  })
+				end
 				
 				local betCheckRecieved = false
 				local canBet = false
@@ -892,9 +931,16 @@ AddEventHandler("BLACKJACK:RequestBets", function(index, _timeLeft)
 				else
 					QBCore.Functions.Notify("You don't have enough Chips for the bet.", "error")
 					Wait(1000)
-					exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+
+					if highStakes then
+					exports['ps-ui']:StatusUpdate("Blackjack (2500)", {
 						Lang:t("menu.chips")..chipAmount,
 					  })
+					else
+						exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+							Lang:t("menu.chips")..chipAmount,
+						  })
+					end
 				end
 			end
 		end
@@ -906,19 +952,28 @@ end)
 			CreateThread(function()
 				timeLeft = _timeLeft
 				if leavingBlackjack == true then leaveBlackjack() return end
+
 				local chipAmount = getChipAmount()
 				if not chipAmount then chipAmount = 0 end
-
-				exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+				
+				if highStakes then
+				exports['ps-ui']:StatusUpdate("Blackjack (2500)", {
 					Lang:t("menu.chips")..chipAmount,
 					Lang:t("menu.dealer")..dealerValue[g_seat],
 					Lang:t("menu.you")..handValue(hand),
 				  })
+				else
+					exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+						Lang:t("menu.chips")..chipAmount,
+						Lang:t("menu.dealer")..dealerValue[g_seat],
+						Lang:t("menu.you")..handValue(hand),
+					  })
+				end
 		
 				if CanSplitHand(hand) == true then
 					--print("DEBUG: Kan splitte")
 					local openMenu = {
-						{
+												{
 							header = Lang:t("menu.split"),
 							txt = Lang:t("menu.splittxt"),
 							params = {
@@ -1418,11 +1473,19 @@ elseif data == "placebet" then
 	
 	TriggerServerEvent("BLACKJACK:CheckPlayerBet", g_seat, bet)
 
-	exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+	if highStakes then
+	exports['ps-ui']:StatusUpdate("Blackjack (2500)", {
 		Lang:t("menu.chips")..chipAmount,
 		Lang:t("menu.dealer").."0",
 		Lang:t("menu.you").."0",
 	  })
+	else
+		exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+			Lang:t("menu.chips")..chipAmount,
+			Lang:t("menu.dealer").."0",
+			Lang:t("menu.you").."0",
+		  })
+	end
 	
 	local betCheckRecieved = false
 	local canBet = false
@@ -1501,9 +1564,16 @@ elseif data == "placebet" then
 		return
 	else
 		QBCore.Functions.Notify("You don't have enough Chips for the bet.", "error")
-		exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+
+		if highStakes then
+		exports['ps-ui']:StatusUpdate("Blackjack (2500)", {
 			Lang:t("menu.chips")..chipAmount,
 		  })
+		else
+			exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+				Lang:t("menu.chips")..chipAmount,
+			  })
+		end
 	end
 
 end
@@ -1545,11 +1615,18 @@ AddEventHandler("BLACKJACK:GameEndReaction", function(result)
 
 		local chipAmount = getChipAmount()
 		if not chipAmount then chipAmount = 0 end
-
-		exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+		
+		if highStakes then
+		exports['ps-ui']:StatusUpdate("Blackjack (2500)", {
 			Lang:t("menu.chips")..chipAmount,
 			Lang:t("menu.waitbet"),
 		  })
+		else
+			exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+				Lang:t("menu.chips")..chipAmount,
+				Lang:t("menu.waitbet"),
+			  })
+		end
 
 		if leavingBlackjack == true then leaveBlackjack() return end
 
@@ -1606,11 +1683,20 @@ AddEventHandler("BLACKJACK:UpdateDealerHand", function(i, v)
 	local chipAmount = getChipAmount()
 	if not chipAmount then chipAmount = 0 end
 	dealerValue[i] = v
-	exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+
+	if highStakes then
+	exports['ps-ui']:StatusUpdate("Blackjack (2500)", {
 		Lang:t("menu.chips")..chipAmount,
 		Lang:t("menu.dealer")..dealerValue[g_seat],
 		Lang:t("menu.you")..handValue(hand),
 	  })
+	else
+		exports['ps-ui']:StatusUpdate("Blackjack (500)", {
+			Lang:t("menu.chips")..chipAmount,
+			Lang:t("menu.dealer")..dealerValue[g_seat],
+			Lang:t("menu.you")..handValue(hand),
+		  })
+	end
 end)
 
 RegisterNetEvent("BLACKJACK:GiveCard")
@@ -1767,6 +1853,23 @@ function ProcessTables()
 								--exports['qb-core']:DrawText('[E] - Play Blackjack', 'left')
 							end
 
+							if _DEBUG == true then
+								SetTextFont(0)
+								SetTextProportional(1)
+								SetTextScale(0.0, 0.45)
+								SetTextColour(255, 255, 255, 255)
+								SetTextDropshadow(0, 0, 0, 0, 255)
+								SetTextEdge(2, 0, 0, 0, 150)
+								SetTextDropShadow()
+								SetTextOutline()
+								SetTextEntry("STRING")
+								SetTextCentre(1)
+								SetDrawOrigin(cord.x, cord.y, cord.z)
+								AddTextComponentString("table = "..i)
+								DrawText(0.0, 0.0)
+								ClearDrawOrigin()
+							end
+
 							if IsControlJustPressed(1, 51) then
 
 								exports['ps-ui']:HideText()
@@ -1794,8 +1897,27 @@ function ProcessTables()
 								local chipAmount = getChipAmount()
 								if not chipAmount then chipAmount = 0 end
 
+
+
 								Wait(1000)
 
+								idleVar = "idle_cardgames"
+
+								scene = NetworkCreateSynchronisedScene(coords, rot, 2, true, true, 1065353216, 0, 1065353216)
+								NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@shared@player@", "idle_cardgames", 2.0, -2.0, 13, 16, 1148846080, 0)
+								NetworkStartSynchronisedScene(scene)
+
+								repeat Wait(0) until IsEntityPlayingAnim(ped, "anim_casino_b@amb@casino@games@shared@player@", "idle_cardgames", 3) == 1
+
+								g_seat = i
+
+								leavingBlackjack = false
+
+								TriggerServerEvent("BLACKJACK:PlayerSatDown", i, closestChair)
+
+								local endTime = GetGameTimer() + math.floor(GetAnimDuration("anim_casino_b@amb@casino@games@shared@player@", idleVar)*990)
+
+								
 								if highStakes then
 									exports['ps-ui']:StatusShow("Blackjack (2500)", {
 										Lang:t("menu.chips")..chipAmount,
@@ -1817,24 +1939,6 @@ function ProcessTables()
 											Lang:t("menu.waitbet"),
 										  })
 									end
-
-
-								idleVar = "idle_cardgames"
-
-								scene = NetworkCreateSynchronisedScene(coords, rot, 2, true, true, 1065353216, 0, 1065353216)
-								NetworkAddPedToSynchronisedScene(ped, scene, "anim_casino_b@amb@casino@games@shared@player@", "idle_cardgames", 2.0, -2.0, 13, 16, 1148846080, 0)
-								NetworkStartSynchronisedScene(scene)
-
-								repeat Wait(0) until IsEntityPlayingAnim(ped, "anim_casino_b@amb@casino@games@shared@player@", "idle_cardgames", 3) == 1
-
-								g_seat = i
-
-								leavingBlackjack = false
-
-								TriggerServerEvent("BLACKJACK:PlayerSatDown", i, closestChair)
-
-								local endTime = GetGameTimer() + math.floor(GetAnimDuration("anim_casino_b@amb@casino@games@shared@player@", idleVar)*990)
-								
 
 								CreateThread(function() -- Disable pause when while in-blackjack
 									local startCount = false
@@ -1938,8 +2042,8 @@ function ProcessTables()
 end
 
 CreateThread(function()
-	-- if IsModelInCdimage(`vw_prop_casino_blckjack_01`) and IsModelInCdimage(`ig_tomcasino`) and IsModelInCdimage(`vw_prop_chip_10dollar_x1`) then
-	if IsModelInCdimage(`vw_prop_casino_3cardpoker_01`) and IsModelInCdimage(`ig_tomcasino`) then
+	-- if IsModelInCdimage(`vw_prop_casino_blckjack_01`) and IsModelInCdimage(`s_f_y_casino_01`) and IsModelInCdimage(`vw_prop_chip_10dollar_x1`) then
+	if IsModelInCdimage(`vw_prop_casino_3cardpoker_01`) and IsModelInCdimage(`s_f_y_casino_01`) then
 		CreateThread(ProcessTables)
 		CreateThread(CreatePeds)
 	else
