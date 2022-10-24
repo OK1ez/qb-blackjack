@@ -1,7 +1,24 @@
-_DEBUG = false
-bettingTime = 60
-moveTime = 60
 
+_DEBUG = false
+
+function DebugPrint(str)
+	if _DEBUG == true and str then
+		return print("BLACKJACK: "..tostring(str))
+	end
+end
+
+elevator_roof_location = {
+	["x"] = 930.0716,
+	["y"] = 33.86854,
+	["z"] = 81.09772,
+	["a"] = 69.9051208
+}
+elevator_entrance_location = {
+	["x"] = 965.0619,
+	["y"] = 58.51287,
+	["z"] = 112.553,
+	["a"] = 53.0310745
+}
 
 tables = { -- Spawns Ped Only -- Setup Currently For This https://forum.cfx.re/t/cayo-perico-casino-dlc-ipl-loader/2099391
 	{
@@ -61,7 +78,6 @@ tables = { -- Spawns Ped Only -- Setup Currently For This https://forum.cfx.re/t
 		highStakes = true
 	},
 }
-
 --[[
 	Table colors
 	0: Green
@@ -93,22 +109,22 @@ customTables = { -- Spawns ped with table, example below
 	},
 	{
 		coords = vector4(1024.41, 58.63, 68.87, 150.27),
-		highStakes = true,
+		highStakes = false,
 		color = 3
 	},
 	{
 		coords = vector4(1027.13, 63.67, 68.87, 332.04),
-		highStakes = true,
+		highStakes = false,
 		color = 3
 	},
 	{
 		coords = vector4(1028.52, 42.2, 68.87, 57.6),
-		highStakes = true,
+		highStakes = false,
 		color = 3
 	},
 	{
 		coords = vector4(1033.32, 39.29, 68.87, 227.53),
-		highStakes = true,
+		highStakes = false,
 		color = 3
 	},
 }
@@ -511,96 +527,14 @@ pileRotationOffsets = { -- doesnt have to be vector3
 	}
 }
 
-lowTableLimit = 40
+lowTableLimit = 1
 bettingNums = {
-	-- 10,
-	-- 20,
-	-- 30,
-	-- 40,
-	-- 50,
-	-- 60,
-	-- 70,
-	-- 80,
-	-- 90,
-	--100,
-	-- 150,
-	-- 200,
-	-- 250,
-	-- 300,
-	-- 350,
-	-- 400,
-	-- 450,
 	500,
-	-- 1000,
-	-- 1500,
-	-- 2000,
-	-- 2500,
-	-- 3000,
-	-- 3500,
-	-- 4000,
-	-- 4500,
-	-- 5000,
-	-- 6000,
-	-- 7000,
-	-- 8000,
-	-- 9000,
-	-- 10000,
-	-- 15000,
-	-- 20000,
-	-- 25000,
-	-- 30000,
-	-- 35000,
-	-- 40000,
-	-- 45000,
-	-- 50000, -- 40 Low table limit, betting numbers added after this will be high stakes only
-	-- 55000,
-	-- 60000,
-	-- 65000,
-	-- 70000,
-	-- 75000,
-	-- 80000,
-	-- 85000,
-	-- 90000,
-	-- 95000,
-	-- 100000,
-	-- 150000,
-	-- 200000,
-	-- 250000,
-	-- 300000,
-	-- 350000,
-	-- 400000,
-	-- 450000,
-	-- 500000,
-	-- 550000,
-	-- 600000,
-	-- 650000,
-	-- 700000,
-	-- 750000,
-	-- 800000,
-	-- 850000,
-	-- 900000,
-	-- 950000,
-	-- 1000000,
-	-- 1500000,
-	-- 2000000,
-	-- 2500000,
-	-- 3000000,
-	-- 3500000,
-	-- 4000000,
-	-- 4500000,
-	-- 5000000,
-	-- 5500000,
-	-- 6000000,
-	-- 6500000,
-	-- 7000000,
-	-- 7500000,
-	-- 8000000,
-	-- 8500000,
-	-- 9000000,
-	-- 9500000,
-	-- 10000000,
+	2500,
 }
 
+bettingTime = 50
+moveTime = 30
 --[[
 	case 10:
 		return joaat("vw_prop_chip_10dollar_x1");
