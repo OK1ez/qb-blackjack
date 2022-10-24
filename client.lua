@@ -488,7 +488,7 @@ function CreatePeds()
 		dealerHand[i] = {}
 		dealerValue[i] = {}
 		dealerHandObjs[i] = {}
-		local model = `s_f_y_casino_01`
+		local model = `ig_tomcasino`
 
 		chips[i] = {}
 
@@ -919,6 +919,14 @@ end)
 					--print("DEBUG: Kan splitte")
 					local openMenu = {
 						{
+							header = Lang:t("menu.split"),
+							txt = Lang:t("menu.splittxt"),
+							params = {
+								event = "qb-blackjack:client:velg",
+								args = "split"
+							}
+						},
+						{
 							header = Lang:t("menu.hit"),
 							txt = Lang:t("menu.hittxt"),
 							params = {
@@ -932,14 +940,6 @@ end)
 							params = {
 								event = "qb-blackjack:client:velg",
 								args = "stand"
-							}
-						},
-						{
-							header = Lang:t("menu.split"),
-							txt = Lang:t("menu.splittxt"),
-							params = {
-								event = "qb-blackjack:client:velg",
-								args = "split"
 							}
 						},
 					}
@@ -986,6 +986,14 @@ end)
 						}
 					},
 					{
+						header = Lang:t("menu.split"),
+						txt = Lang:t("menu.splittxt"),
+						params = {
+							event = "qb-blackjack:client:velg",
+							args = "split"
+						}
+					},
+					{
 						header = Lang:t("menu.hit"),
 						txt = Lang:t("menu.hittxt"),
 						params = {
@@ -999,14 +1007,6 @@ end)
 						params = {
 							event = "qb-blackjack:client:velg",
 							args = "stand"
-						}
-					},
-					{
-						header = Lang:t("menu.split"),
-						txt = Lang:t("menu.splittxt"),
-						params = {
-							event = "qb-blackjack:client:velg",
-							args = "split"
 						}
 					},
 				}
@@ -1767,23 +1767,6 @@ function ProcessTables()
 								--exports['qb-core']:DrawText('[E] - Play Blackjack', 'left')
 							end
 
-							if _DEBUG == true then
-								SetTextFont(0)
-								SetTextProportional(1)
-								SetTextScale(0.0, 0.45)
-								SetTextColour(255, 255, 255, 255)
-								SetTextDropshadow(0, 0, 0, 0, 255)
-								SetTextEdge(2, 0, 0, 0, 150)
-								SetTextDropShadow()
-								SetTextOutline()
-								SetTextEntry("STRING")
-								SetTextCentre(1)
-								SetDrawOrigin(cord.x, cord.y, cord.z)
-								AddTextComponentString("table = "..i)
-								DrawText(0.0, 0.0)
-								ClearDrawOrigin()
-							end
-
 							if IsControlJustPressed(1, 51) then
 
 								exports['ps-ui']:HideText()
@@ -1811,6 +1794,8 @@ function ProcessTables()
 								local chipAmount = getChipAmount()
 								if not chipAmount then chipAmount = 0 end
 
+								Wait(1000)
+
 								if highStakes then
 									exports['ps-ui']:StatusShow("Blackjack (2500)", {
 										Lang:t("menu.chips")..chipAmount,
@@ -1833,7 +1818,6 @@ function ProcessTables()
 										  })
 									end
 
-								Wait(1000)
 
 								idleVar = "idle_cardgames"
 
@@ -1954,8 +1938,8 @@ function ProcessTables()
 end
 
 CreateThread(function()
-	-- if IsModelInCdimage(`vw_prop_casino_blckjack_01`) and IsModelInCdimage(`s_f_y_casino_01`) and IsModelInCdimage(`vw_prop_chip_10dollar_x1`) then
-	if IsModelInCdimage(`vw_prop_casino_3cardpoker_01`) and IsModelInCdimage(`s_f_y_casino_01`) then
+	-- if IsModelInCdimage(`vw_prop_casino_blckjack_01`) and IsModelInCdimage(`ig_tomcasino`) and IsModelInCdimage(`vw_prop_chip_10dollar_x1`) then
+	if IsModelInCdimage(`vw_prop_casino_3cardpoker_01`) and IsModelInCdimage(`ig_tomcasino`) then
 		CreateThread(ProcessTables)
 		CreateThread(CreatePeds)
 	else
