@@ -1,12 +1,6 @@
-
 _DEBUG = false
-
-function DebugPrint(str)
-	if _DEBUG == true and str then
-		return print("BLACKJACK: "..tostring(str))
-	end
-end
-
+bettingTime = 60
+moveTime = 60
 
 
 tables = { -- Spawns Ped Only -- Setup Currently For This https://forum.cfx.re/t/cayo-perico-casino-dlc-ipl-loader/2099391
@@ -77,26 +71,6 @@ tables = { -- Spawns Ped Only -- Setup Currently For This https://forum.cfx.re/t
 --]]
 
 customTables = { -- Spawns ped with table, example below
-	{
-		coords = vector4(-1394.8, -601.95, 35.51, 212.82),
-		highStakes = true,
-		color = 1
-	},
-	{
-		coords = vector4(-1398.15, -598.03, 35.51, 303),
-		highStakes = false,
-		color = 3
-	},
-	{
-		coords = vector4(-1402.65, -600.68, 35.51, 32.00),
-		highStakes = false,
-		color = 3
-	},
-	{
-		coords = vector4(-1406.36, -603.34, 35.51, 32.00),
-		highStakes = false,
-		color = 3
-	},
 	{
 		coords = vector4(1043.7, 51.61, 68.06, 64.21),
 		highStakes = false,
@@ -627,8 +601,6 @@ bettingNums = {
 	-- 10000000,
 }
 
-bettingTime = 50
-moveTime = 30
 --[[
 	case 10:
 		return joaat("vw_prop_chip_10dollar_x1");
