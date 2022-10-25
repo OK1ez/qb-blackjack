@@ -2,11 +2,12 @@
 Blackjack Script For QB-Core
 
 ## Last updated by OK1ez(nopixel style)
+* https://github.com/Project-Sloth/ps-ui
 
 
 ## This Script is being picked up by xViperAG
 
-## https://github.com/Project-Sloth/ps-ui
+
 
 ## Join the Discord
 
