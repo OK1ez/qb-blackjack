@@ -4,7 +4,7 @@ Blackjack Script For QB-Core
 ## Last updated by OK1ez(nopixel style)
 * https://github.com/Project-Sloth/ps-ui
 
-* https://streamable.com/3kjesv
+* https://streamable.com/pg6hzi
 
 
 ## This Script is being picked up by xViperAG
