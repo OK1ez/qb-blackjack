@@ -1845,12 +1845,12 @@ function ProcessTables()
 						if #(pCoords - coords) < 2.5 and not IsSeatOccupied(coords, 0.5) and canSit then
 							if highStakes then
 								--DisplayHelpText("Press ~INPUT_CONTEXT~ to play High-Limit Blackjack.")
-								exports['ps-ui']:DisplayText("[E] - High-Limit Spill Blackjack", "success") 
+								exports['ps-ui']:DisplayText("[E] - Play High-Limit Blackjack", "success") 
 
 								--exports['qb-core']:DrawText('[E] - High-Limit Play Blackjack', 'left')
 							else
 								--DisplayHelpText("Press ~INPUT_CONTEXT~ to play Blackjack.")
-								exports['ps-ui']:DisplayText("[E] -  Spill Blackjack", "success")
+								exports['ps-ui']:DisplayText("[E] -  Play Blackjack", "success")
 
 								--exports['qb-core']:DrawText('[E] - Play Blackjack', 'left')
 							end
